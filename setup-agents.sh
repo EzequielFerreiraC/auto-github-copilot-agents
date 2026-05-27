@@ -7,7 +7,7 @@
 #
 # Locais de instalação (conforme documentação oficial):
 #   --project   .github/agents/          (visível no workspace)
-#   --global    ~/.copilot/agents/        (visível em todos os projetos)
+#   --global    ~/.claude/agents/         (visível em todos os projetos)
 #
 # Ref: https://code.visualstudio.com/docs/copilot/customization/custom-agents
 # =============================================================================
@@ -135,13 +135,8 @@ install_selected_agents() {
         local basename
         basename="$(basename "$file" .md)"
 
-        if [ "$mode" = "global" ]; then
-            cp "$file" "$dest/${basename}.agent.md"
-            print_ok "$name (${basename}.agent.md)"
-        else
-            cp "$file" "$dest/${basename}.md"
-            print_ok "$name (${basename}.md)"
-        fi
+        cp "$file" "$dest/${basename}.md"
+        print_ok "$name (${basename}.md)"
         INSTALLED=$((INSTALLED + 1))
     done
 
@@ -194,7 +189,7 @@ install_project() {
 # =============================================================================
 
 install_global() {
-    local dest="$HOME/.copilot/agents"
+    local dest="$HOME/.claude/agents"
     install_selected_agents "$dest" "global"
 }
 
@@ -236,7 +231,7 @@ show_menu() {
     print_header "GitHub Copilot Custom Agents Setup"
 
     echo "  1) Instalar no Projeto Atual  (.github/agents/)"
-    echo "  2) Instalar Globalmente       (~/.copilot/agents/)"
+    echo "  2) Instalar Globalmente       (~/.claude/agents/)"
     echo "  3) Listar Agentes Disponíveis"
     echo "  4) Sair"
     echo ""
@@ -316,7 +311,7 @@ main() {
                 echo "Uso: $0 [opção]"
                 echo ""
                 echo "  --project   Instala em .github/agents/ (workspace)"
-                echo "  --global    Instala em ~/.copilot/agents/ (todos projetos)"
+                echo "  --global    Instala em ~/.claude/agents/ (todos projetos)"
                 echo "  --list      Lista agentes disponíveis"
                 echo "  --help      Mostra esta mensagem"
                 exit 0
