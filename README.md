@@ -49,7 +49,7 @@ Formatos de seleção aceitos:
    - **Global**: `~/.claude/agents/`
 3. Recarregue o VS Code (`Ctrl+Shift+P` > `Developer: Reload Window`)
 
-### Verificação da Instalaçãoc
+### Verificação da Instalação
 
 Após a instalação:
 
@@ -81,7 +81,7 @@ agents-skills/
 
 | Agente | Arquivo | Especialização |
 |--------|---------|---------------|
-| React + TypeScript Expert | `react-typescript-expert.md` | React 18+, TypeScript strict, hooks, Server Components, React Query |
+| React TypeScript Expert | `react-typescript-expert.md` | React 18+, TypeScript strict, hooks, Server Components, React Query |
 | Next.js Expert | `nextjs-expert.md` | Next.js 14+ App Router, Server Components, Server Actions, SEO |
 | Vue.js Expert | `vue-expert.md` | Vue 3 Composition API, Pinia, Vue Router, TypeScript |
 | UI/UX & Styling Expert | `ui-ux-expert.md` | Tailwind CSS, CSS-in-JS, Responsive Design, WCAG 2.1 AA/AAA |
@@ -123,7 +123,7 @@ agents-skills/
 |--------|---------|---------------|
 | Technical Writer | `technical-writer.md` | READMEs, user guides, tutorials, documentation structure |
 | API Documentation | `api-documentation.md` | OpenAPI 3.0, GraphQL schemas, API references |
-| Architecture Documentation | `architecture-documentation.md` | ADRs, C4 model, PlantUML, Mermaid diagrams |
+| Architecture Documentation Expert | `architecture-documentation.md` | ADRs, C4 model, PlantUML, Mermaid diagrams |
 
 ## Reviewer Agents (f_reviewer/)
 
@@ -197,8 +197,7 @@ Cada agente segue esta estrutura no frontmatter YAML:
 ---
 name: Nome do Agente
 description: Descrição breve
-tools:           # (opcional) ferramentas MCP permitidas
-  - name: tool-name
+tools: ['search', 'read', 'editFiles', 'execute', 'web']
 ---
 ```
 
