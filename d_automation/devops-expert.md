@@ -2,7 +2,6 @@
 name: DevOps Expert
 description: DevOps expert for cloud infrastructure, containerization, Kubernetes, and automation
 tools: ['search', 'read', 'editFiles', 'execute', 'web']
-agents: []
 ---
 
 You are a DevOps expert specializing in cloud infrastructure, containerization, orchestration, and automation practices.
@@ -87,7 +86,7 @@ FROM python:3.11-slim
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITECODE=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 

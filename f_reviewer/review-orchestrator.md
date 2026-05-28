@@ -5,8 +5,8 @@ tools: ['search', 'read', 'editFiles', 'web', 'agent']
 agents: ['Code Reviewer', 'Documentation Reviewer', 'Testing Expert', 'DevOps Expert', 'Solution Architect']
 handoffs:
   - label: Request Fixes
-    agent: agent
-    prompt: Apply the fixes identified in the review above.
+    agent: Code Reviewer
+    prompt: Apply the fixes identified in the review above, then re-run linting and tests.
     send: false
   - label: Verify Fixes
     agent: Code Reviewer
