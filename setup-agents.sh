@@ -5,7 +5,7 @@
 # =============================================================================
 # Instala os agentes customizados para uso no GitHub Copilot Chat do VS Code.
 #
-# Locais de instalação (conforme documentação oficial):
+# Locais de instalação (conforme extensão github.copilot-chat):
 #   --project   .github/agents/          (visível no workspace)
 #   --global    ~/.claude/agents/         (visível em todos os projetos)
 #
@@ -145,35 +145,6 @@ install_selected_agents() {
 }
 
 # =============================================================================
-# Reload automático do VS Code
-# =============================================================================
-
-reload_vscode() {
-    echo ""
-    print_info "Agentes instalados com sucesso."
-    print_warn "ACAO NECESSARIA: Recarregue o VS Code para ativar os agentes."
-    echo ""
-    echo "  Pressione ENTER para recarregar a janela do VS Code agora,"
-    echo "  ou Ctrl+C para fazer manualmente depois."
-    echo ""
-    print_info "  (Ctrl+Shift+P > Developer: Reload Window)"
-    echo ""
-    read -rp "  Pressione ENTER para recarregar..."
-
-    local root
-    root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-    if command -v code &> /dev/null; then
-        code --reuse-window "$root" 2>/dev/null
-        sleep 1
-        print_ok "Comando de reload enviado ao VS Code."
-        print_info "Se a janela nao recarregou, faca manualmente: Ctrl+Shift+P > Developer: Reload Window"
-    else
-        print_warn "CLI do VS Code nao encontrado."
-        print_info "Faca manualmente: Ctrl+Shift+P > Developer: Reload Window"
-    fi
-}
-
-# =============================================================================
 # Instalação no Projeto (.github/agents/)
 # =============================================================================
 
@@ -192,7 +163,6 @@ install_global() {
     local dest="$HOME/.claude/agents"
     install_selected_agents "$dest" "global"
 }
-
 
 # =============================================================================
 # Desinstala agentes de um diretório
@@ -296,7 +266,7 @@ uninstall_agents() {
 
     # Remove diretório se vazio
     if [ -d "$dest" ] && [ -z "$(ls -A "$dest" 2>/dev/null)" ]; then
-        rmdir "$dest" 2>/dev/null
+        rmdir "$dest" 2>/dev/null || true
         print_info "Diretório vazio removido: $dest"
     fi
 }
@@ -310,6 +280,11 @@ uninstall_project() {
 
 uninstall_global() {
     local dest="$HOME/.claude/agents"
+    # Fallback para caminho legado (versões anteriores do script)
+    if [ ! -d "$dest" ] && [ -d "$HOME/.copilot/agents" ]; then
+        print_warn "Usando caminho legado: ~/.copilot/agents/"
+        dest="$HOME/.copilot/agents"
+    fi
     uninstall_agents "$dest" "Global"
 }
 
@@ -363,27 +338,23 @@ show_menu() {
         1)
             select_agents
             echo ""
-            print_warn "Apos a instalacao, a janela do VS Code sera recarregada automaticamente."
             read -rp "  Continuar? (s/n): " confirm
             if [[ "$confirm" =~ ^[SsYy]$ ]]; then
                 install_project
-                reload_vscode
             else
                 print_info "Cancelado."
-                exit 0
             fi
             ;;
         2)
             select_agents
             echo ""
-            print_warn "Apos a instalacao, a janela do VS Code sera recarregada automaticamente."
             read -rp "  Continuar? (s/n): " confirm
             if [[ "$confirm" =~ ^[SsYy]$ ]]; then
                 install_global
-                reload_vscode
+                echo ""
+                print_info "Recarregue o VS Code para ativar: Ctrl+Shift+P > Developer: Reload Window"
             else
                 print_info "Cancelado."
-                exit 0
             fi
             ;;
         3) uninstall_project ;;
@@ -392,19 +363,6 @@ show_menu() {
         6) echo ""; print_info "Cancelado."; exit 0 ;;
         *) print_err "Opção inválida"; show_menu ;;
     esac
-}
-
-# =============================================================================
-# Pós-instalação
-# =============================================================================
-
-post_install() {
-    print_header "Como usar"
-    echo "  1. No Copilot Chat (Ctrl+Shift+I), clique no dropdown de agentes"
-    echo "  2. Selecione o agente desejado da lista"
-    echo "  3. Converse com o agente especializado"
-    echo ""
-    print_ok "Pronto!"
 }
 
 # =============================================================================
@@ -420,15 +378,15 @@ main() {
         case "$1" in
             --project)
                 select_agents
-                print_warn "A janela do VS Code sera recarregada automaticamente apos instalacao."
                 install_project
-                reload_vscode
+                echo ""
+                print_info "Recarregue o VS Code para ativar: Ctrl+Shift+P > Developer: Reload Window"
                 ;;
             --global)
                 select_agents
-                print_warn "A janela do VS Code sera recarregada automaticamente apos instalacao."
                 install_global
-                reload_vscode
+                echo ""
+                print_info "Recarregue o VS Code para ativar: Ctrl+Shift+P > Developer: Reload Window"
                 ;;
             --uninstall-project)
                 uninstall_project
@@ -451,8 +409,6 @@ main() {
             *) print_err "Opção desconhecida: $1"; exit 1 ;;
         esac
     fi
-
-    post_install
 }
 
 main "$@"
