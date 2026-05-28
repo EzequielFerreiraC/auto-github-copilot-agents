@@ -2,7 +2,6 @@
 name: Web Research Agent
 description: Web research agent with MCP for fetching documentation, APIs, and technical references
 tools: ['search', 'read', 'editFiles', 'web']
-agents: []
 mcp-servers:
   - name: fetch
     config:

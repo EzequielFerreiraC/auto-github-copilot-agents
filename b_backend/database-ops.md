@@ -2,7 +2,6 @@
 name: Database Ops
 description: Database operations agent with MCP for direct SQL execution, schema management, and optimization
 tools: ['search', 'read', 'editFiles', 'execute', 'web']
-agents: []
 mcp-servers:
   - name: postgres
     config:

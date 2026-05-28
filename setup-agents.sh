@@ -347,8 +347,6 @@ show_menu() {
             read -rp "  Continuar? (s/n): " confirm
             if [[ "$confirm" =~ ^[SsYy]$ ]]; then
                 install_global
-                echo ""
-                print_info "Recarregue o VS Code para ativar: Ctrl+Shift+P > Developer: Reload Window"
             else
                 print_info "Cancelado."
             fi

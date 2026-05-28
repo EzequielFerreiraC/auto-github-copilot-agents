@@ -2,7 +2,6 @@
 name: Docker Ops
 description: Docker/Container operations agent with MCP for image building, container management, and orchestration
 tools: ['search', 'read', 'editFiles', 'execute', 'web']
-agents: []
 mcp-servers:
   - name: docker
     config:

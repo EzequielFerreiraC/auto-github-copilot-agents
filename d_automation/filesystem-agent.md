@@ -2,7 +2,6 @@
 name: Filesystem Agent
 description: File system operations agent with MCP for project scaffolding, refactoring, and file management
 tools: ['search', 'read', 'editFiles', 'execute', 'web']
-agents: []
 mcp-servers:
   - name: filesystem
     config:
