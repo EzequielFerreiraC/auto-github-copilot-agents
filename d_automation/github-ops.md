@@ -1,7 +1,7 @@
 ---
 name: GitHub Ops
 description: GitHub operations agent with MCP integration for issues, PRs, repos, and workflows
-tools: ['search', 'read', 'editFiles', 'execute', 'web', 'github/*']
+tools: ['search', 'read', 'editFiles', 'execute', 'web']
 agents: []
 mcp-servers:
   - name: github
