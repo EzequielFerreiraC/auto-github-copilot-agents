@@ -123,7 +123,7 @@ parse_selection() {
 
 install_selected_agents() {
     local dest="$1"
-    local mode="$2"
+    INSTALLED=0
 
     mkdir -p "$dest"
 
@@ -302,17 +302,13 @@ select_agents() {
     echo "    2-3       (agentes 2 e 3)"
     echo "    1,3,5-7   (agentes 1, 3, 5, 6 e 7)"
     echo ""
-    read -rp "  Agentes [1-${total}]: " selection
 
-    if [ -z "$selection" ]; then
-        selection="1-${total}"
-    fi
-
-    if ! parse_selection "$selection"; then
+    while true; do
+        read -rp "  Agentes [1-${total}]: " selection
+        [ -z "$selection" ] && selection="1-${total}"
+        parse_selection "$selection" && break
         print_err "Seleção inválida. Tente novamente."
-        select_agents
-        return
-    fi
+    done
 
     echo ""
     print_info "Agentes selecionados: ${#SELECTED_INDICES[@]}"
