@@ -4,7 +4,7 @@ Uma coleção abrangente de **37 agentes especializados** para GitHub Copilot, o
 
 ## Visão Geral
 
-Esta coleção fornece agentes customizados para o GitHub Copilot Chat no VS Code, seguindo as melhores práticas da indústria:
+Esta coleção fornece agentes customizados para o GitHub Copilot Chat no **VS Code** e **IntelliJ/JetBrains IDEs**, seguindo as melhores práticas da indústria:
 
 - **Temperatura = 0**: Respostas determinísticas e precisas
 - **Orientação a tarefas**: Executam apenas o que foi solicitado
@@ -16,24 +16,54 @@ Esta coleção fornece agentes customizados para o GitHub Copilot Chat no VS Cod
 
 ### Opção 1: Script Automático (Recomendado)
 
-O script interativo permite selecionar quais agentes instalar:
+Existem dois scripts de instalação, um para cada IDE:
+
+| Script | IDE | Formato dos arquivos |
+|--------|-----|---------------------|
+| `setup-agents-vscode.sh` | VS Code | `{nome}.md` |
+| `setup-agents-intellij.sh` | IntelliJ / JetBrains | `{nome}.agent.md` |
 
 ```bash
 # Dê permissão de execução (se necessário)
-chmod +x setup-agents.sh
+chmod +x setup-agents-vscode.sh setup-agents-intellij.sh
 
-# Instalação interativa (com menu de seleção)
-./setup-agents.sh
+# VS Code - instalação interativa
+./setup-agents-vscode.sh
+
+# IntelliJ / JetBrains - instalação interativa
+./setup-agents-intellij.sh
 ```
 
-O menu oferece duas opções de destino:
+Ambos os scripts oferecem um menu com as seguintes opções:
 
-| Opção | Destino | Escopo |
-|-------|---------|--------|
-| Projeto | `.github/agents/` | Visível apenas no workspace atual |
-| Global | `~/.claude/agents/` | Visível em todos os projetos |
+1. Instalar no Projeto Atual
+2. Instalar Globalmente
+3. Remover do Projeto Atual
+4. Remover Globalmente
+5. Listar Agentes Disponíveis
+6. Sair
 
-Formatos de seleção aceitos:
+**Diretórios de instalação:**
+
+| IDE | Opção | Destino | Escopo |
+|-----|-------|---------|--------|
+| VS Code | Projeto | `.github/agents/` | Visível apenas no workspace atual |
+| VS Code | Global | `~/.claude/agents/` | Visível em todos os projetos |
+| IntelliJ | Projeto | `.github/agents/` | Visível apenas no workspace atual |
+| IntelliJ | Global | `~/.copilot/agents/` | Visível em todos os projetos |
+
+**Flags CLI disponíveis:**
+
+```bash
+./setup-agents-vscode.sh --project            # Instala no projeto
+./setup-agents-vscode.sh --global             # Instala globalmente
+./setup-agents-vscode.sh --uninstall-project  # Remove do projeto
+./setup-agents-vscode.sh --uninstall-global   # Remove global
+./setup-agents-vscode.sh --list               # Lista agentes disponíveis
+./setup-agents-vscode.sh --help               # Ajuda
+```
+
+**Formatos de seleção aceitos:**
 
 ```bash
 1-37       # Todos os agentes
@@ -45,33 +75,45 @@ Formatos de seleção aceitos:
 
 1. Clone ou baixe este repositório
 2. Copie os arquivos `.md` dos agentes desejados para:
-   - **Projeto**: `.github/agents/`
-   - **Global**: `~/.claude/agents/`
-3. Recarregue o VS Code (`Ctrl+Shift+P` > `Developer: Reload Window`)
+   - **VS Code (Projeto)**: `.github/agents/` (formato: `nome.md`)
+   - **VS Code (Global)**: `~/.claude/agents/` (formato: `nome.md`)
+   - **IntelliJ (Projeto)**: `.github/agents/` (formato: `nome.agent.md`)
+   - **IntelliJ (Global)**: `~/.copilot/agents/` (formato: `nome.agent.md`)
+3. Recarregue a IDE:
+   - **VS Code**: `Ctrl+Shift+P` > `Developer: Reload Window`
+   - **IntelliJ**: `File` > `Invalidate Caches...` > `Restart`
 
 ### Verificação da Instalação
 
-Após a instalação:
+**VS Code:**
 
 1. Abra o VS Code
 2. Abra o Copilot Chat (`Ctrl+Shift+I`)
 3. Clique no dropdown de agentes - os agentes instalados aparecerão na lista
 4. Selecione o agente desejado e converse com o especialista
 
+**IntelliJ / JetBrains:**
+
+1. Abra a IDE (IntelliJ IDEA, WebStorm, PyCharm, GoLand, etc.)
+2. Abra o Copilot Chat
+3. Os agentes instalados aparecerão disponíveis na lista
+4. Selecione o agente desejado e converse com o especialista
+
 ## Estrutura do Projeto
 
 ```
 agents-skills/
-├── a_frontend/          # 4 agentes - React, Next.js, Vue, UI/UX
-├── b_backend/           # 6 agentes - Node.js, Python, Java, Go, Database
-├── c_data/              # 3 agentes - Análise, ML, Engenharia de Dados
-├── d_automation/        # 7 agentes - DevOps, CI/CD, Testing, IaC, Docker, GitHub
-├── e_documentation/     # 3 agentes - Technical Writer, API Docs, Architecture Docs
-├── f_reviewer/          # 3 agentes - Code Review, Doc Review, Orchestrator
-├── g_ai/               # 4 agentes - LangChain, Prompt Engineering, RAG, Web Research
-├── h_mobile/           # 3 agentes - Flutter, React Native, Swift/iOS
-├── i_architecture/     # 4 agentes - DDD, Event Sourcing, Solution Architect, Tech Lead
-├── setup-agents.sh     # Script de instalação interativo
+├── a_frontend/              # 4 agentes - React, Next.js, Vue, UI/UX
+├── b_backend/               # 6 agentes - Node.js, Python, Java, Go, Database
+├── c_data/                  # 3 agentes - Análise, ML, Engenharia de Dados
+├── d_automation/            # 7 agentes - DevOps, CI/CD, Testing, IaC, Docker, GitHub
+├── e_documentation/         # 3 agentes - Technical Writer, API Docs, Architecture Docs
+├── f_reviewer/              # 3 agentes - Code Review, Doc Review, Orchestrator
+├── g_ai/                    # 4 agentes - LangChain, Prompt Engineering, RAG, Web Research
+├── h_mobile/                # 3 agentes - Flutter, React Native, Swift/iOS
+├── i_architecture/          # 4 agentes - DDD, Event Sourcing, Solution Architect, Tech Lead
+├── setup-agents-vscode.sh   # Script de instalação para VS Code
+├── setup-agents-intellij.sh # Script de instalação para IntelliJ/JetBrains
 └── README.md
 ```
 
@@ -239,7 +281,7 @@ Edite qualquer arquivo `.md` para ajustar o comportamento:
 
 1. Modifique `name` e `description` no frontmatter
 2. Ajuste a expertise, princípios e práticas
-3. Reinstale com `./setup-agents.sh`
+3. Reinstale com `./setup-agents-vscode.sh` ou `./setup-agents-intellij.sh`
 
 ### Criando Novos Agentes
 
@@ -272,21 +314,26 @@ Contexto e expertise do agente.
 - ONLY implemente o que foi pedido
 ```
 
-3. Execute `./setup-agents.sh` para instalar
+3. Execute `./setup-agents-vscode.sh` ou `./setup-agents-intellij.sh` para instalar
 
 ## Troubleshooting
 
 ### Agentes não aparecem no dropdown
 
 1. Verifique se o GitHub Copilot está instalado e ativo
-2. Confirme que os arquivos foram copiados para `.github/agents/` ou `~/.claude/agents/`
-3. Recarregue o VS Code (`Ctrl+Shift+P` > `Developer: Reload Window`)
+2. Confirme que os arquivos foram copiados para o diretório correto:
+   - **VS Code**: `.github/agents/` ou `~/.claude/agents/`
+   - **IntelliJ**: `.github/agents/` ou `~/.copilot/agents/`
+3. Recarregue a IDE:
+   - **VS Code**: `Ctrl+Shift+P` > `Developer: Reload Window`
+   - **IntelliJ**: `File` > `Invalidate Caches...` > `Restart`
 
 ### Script não executa
 
 ```bash
-chmod +x setup-agents.sh
-bash setup-agents.sh
+chmod +x setup-agents-vscode.sh setup-agents-intellij.sh
+bash setup-agents-vscode.sh     # Para VS Code
+bash setup-agents-intellij.sh   # Para IntelliJ/JetBrains
 ```
 
 ### Conflito entre agentes
@@ -295,7 +342,7 @@ Se múltiplos agentes se aplicam ao mesmo contexto, selecione o agente desejado 
 
 ## Estrutura de Diretórios Após Instalação
 
-### Instalação no Projeto
+### Instalação no Projeto (VS Code)
 
 ```
 seu-projeto/
@@ -308,7 +355,20 @@ seu-projeto/
 └── ...
 ```
 
-### Instalação Global
+### Instalação no Projeto (IntelliJ)
+
+```
+seu-projeto/
+├── .github/
+│   └── agents/
+│       ├── react-typescript-expert.agent.md
+│       ├── nodejs-api-expert.agent.md
+│       ├── devops-expert.agent.md
+│       └── ...
+└── ...
+```
+
+### Instalação Global (VS Code)
 
 ```
 ~/.claude/
@@ -316,6 +376,17 @@ seu-projeto/
     ├── react-typescript-expert.md
     ├── nodejs-api-expert.md
     ├── devops-expert.md
+    └── ...
+```
+
+### Instalação Global (IntelliJ)
+
+```
+~/.copilot/
+└── agents/
+    ├── react-typescript-expert.agent.md
+    ├── nodejs-api-expert.agent.md
+    ├── devops-expert.agent.md
     └── ...
 ```
 
