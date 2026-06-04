@@ -1,6 +1,6 @@
 # Expert AI Agents & Skills Collection
 
-Uma coleção abrangente de **37 agentes especializados** para GitHub Copilot, organizados em 9 categorias: frontend, backend, dados, automação, documentação, revisão, IA, mobile e arquitetura.
+> Uma coleção abrangente de **37 agentes especializados** para GitHub Copilot, organizados em 9 categorias: frontend, backend, dados, automação, documentação, revisão, IA, mobile e arquitetura.
 
 ## Visão Geral
 
